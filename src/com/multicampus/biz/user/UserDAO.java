@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.multicampus.biz.board.BoardVO;
 import com.multicampus.biz.common.JDBCUtil;
 
 // DAO(Data Access Object) 클래스 
@@ -94,23 +97,31 @@ public class UserDAO {
 	}
 	
 	// 회원 목록 검색
-	public void getUserList() {
+	public List<UserVO> getUserList() {
 		System.out.println("===> JDBC 기반으로 getUserList() 기능 처리");
+		List<UserVO> userList = new ArrayList<UserVO>();
+		
 		try {
 			conn = JDBCUtil.getConnection();
 			stmt = conn.prepareStatement(USER_LIST);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
-				System.out.print(rs.getString("ID") + " : ");
-				System.out.print(rs.getString("PASSWORD") + " : ");
-				System.out.print(rs.getString("NAME") + " : ");
-				System.out.println(rs.getString("ROLE"));
+				UserVO user = new UserVO();
+				user.setId(rs.getString("ID"));
+				user.setPassword(rs.getString("PASSWORD"));
+				user.setName(rs.getString("NAME"));
+				user.setRole(rs.getString("ROLE"));
+				userList.add(user);
 			}			
+			
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			JDBCUtil.close(rs, stmt, conn);
 		}
+		
+		return userList;
 	}
 
 }

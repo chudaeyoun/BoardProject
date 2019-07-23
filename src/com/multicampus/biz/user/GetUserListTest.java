@@ -1,10 +1,19 @@
 package com.multicampus.biz.user;
 
+import java.util.List;
+
+import com.multicampus.biz.board.BoardVO;
+
 public class GetUserListTest {
 	public static void main(String[] args) {
 		UserDAO userDAO = new UserDAO();
 		
-		userDAO.getUserList();
+		List<UserVO> userList = userDAO.getUserList();
+		
+		System.out.println(userList.size() + "°Ç °Ë»öµÊ");
+		
+		
+		
 		
 /*		Connection conn = null;
 		PreparedStatement stmt = null;
